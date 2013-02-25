@@ -8,19 +8,19 @@ except:
     gui_present = False
 
 def calculate_abv(og,fg):
-    return str('%.2f' % (abv_multiplier * (float(og) - float(fg))))
+    return str('%.2f' % (abv_multiplier * (float(og) - float(fg)))) + '%'
 
 def calculate_attenuation(og,fg):
-    return str('%.2f' % (100 * (1 - (float(fg) - 1)/(float(og) - 1))))
+    return str('%.2f' % (100 * (1 - (float(fg) - 1)/(float(og) - 1)))) + '%'
 
 def results_controller():
     try:
         abv_calculated = calculate_abv(original_gravity.get(),final_gravity.get())
         attenuation_calculated = calculate_attenuation(original_gravity.get(),final_gravity.get())
         abv.delete(0, END)
-        abv.insert(0,  abv_calculated + '%')
+        abv.insert(0,  abv_calculated)
         attenuation.delete(0, END)
-        attenuation.insert(0, attenuation_calculated + '%')
+        attenuation.insert(0, attenuation_calculated)
     except:
         display_error()
 
@@ -78,8 +78,8 @@ else:
         try:
             abv_calculated = calculate_abv(original_gravity,final_gravity)
             attenuation_calculated = calculate_attenuation(original_gravity,final_gravity)
-            print 'Attenuation: ' + attenuation_calculated + '%'
-            print 'Alcohol by Volume: ' + abv_calculated + '%\n'
+            print 'Attenuation: ' + attenuation_calculated
+            print 'Alcohol by Volume: ' + abv_calculated + '\n'
         except:
             print 'Error with your inputs'
 
