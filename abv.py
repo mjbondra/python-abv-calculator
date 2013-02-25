@@ -15,12 +15,10 @@ def calculate_attenuation(og,fg):
 
 def results_controller():
     try:
-        abv_calculated = calculate_abv(original_gravity.get(),final_gravity.get())
-        attenuation_calculated = calculate_attenuation(original_gravity.get(),final_gravity.get())
         abv.delete(0, END)
-        abv.insert(0,  abv_calculated)
+        abv.insert(0,  calculate_abv(original_gravity.get(),final_gravity.get()))
         attenuation.delete(0, END)
-        attenuation.insert(0, attenuation_calculated)
+        attenuation.insert(0, calculate_attenuation(original_gravity.get(),final_gravity.get()))
     except:
         display_error()
 
@@ -30,7 +28,7 @@ def display_error():
     error_window.la('')
     error_window.gr(cols=3)
     error_window.la('    ')
-    error_window.la('Fix your inputs')
+    error_window.la('Error with your inputs')
     error_window.la('    ')
     error_window.endgr()
     error_window.la('')
@@ -76,10 +74,8 @@ else:
             break
         print ''
         try:
-            abv_calculated = calculate_abv(original_gravity,final_gravity)
-            attenuation_calculated = calculate_attenuation(original_gravity,final_gravity)
-            print 'Attenuation: ' + attenuation_calculated
-            print 'Alcohol by Volume: ' + abv_calculated + '\n'
+            print 'Attenuation: ' + calculate_attenuation(original_gravity,final_gravity)
+            print 'Alcohol by Volume: ' + calculate_abv(original_gravity,final_gravity) + '\n'
         except:
-            print 'Error with your inputs'
+            print 'Error with your inputs\n'
 
