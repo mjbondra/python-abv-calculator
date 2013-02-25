@@ -7,10 +7,16 @@ try:
 except:
     gui_present = False
 
-def calculate_abv_attenuation():
+def calculate_abv(og,fg):
+    return str('%.2f' % (abv_multiplier * (float(og) - float(fg))))
+
+def calculate_attenuation(og,fg):
+    return str('%.2f' % (100 * (1 - (float(fg) - 1)/(float(og) - 1))))
+
+def results_controller():
     try:
-        abv_calculated = str('%.2f' % (abv_multiplier * (float(original_gravity.get()) - float(final_gravity.get()))))
-        attenuation_calculated = str('%.2f' % (100 * (1 - (float(final_gravity.get()) - 1)/(float(original_gravity.get()) - 1))))
+        abv_calculated = calculate_abv(original_gravity.get(),final_gravity.get())
+        attenuation_calculated = calculate_attenuation(original_gravity.get(),final_gravity.get())
         abv.delete(0, END)
         abv.insert(0,  abv_calculated + '%')
         attenuation.delete(0, END)
@@ -44,7 +50,7 @@ if gui_present:
     main_window.la('')
     main_window.gr(cols=3)
     main_window.la('    ')
-    main_window.bu(text='Calculate Attenuation and ABV', command=calculate_abv_attenuation)
+    main_window.bu(text='Calculate Attenuation and ABV', command=results_controller)
     main_window.la('    ')
     main_window.endgr()
     main_window.la('')
@@ -69,8 +75,11 @@ else:
         if final_gravity[0].lower() == 'q':
             break
         print ''
-        abv_calculated = str('%.2f' % (abv_multiplier * (float(original_gravity) - float(final_gravity))))
-        attenuation_calculated = str('%.2f' % (100 * (1 - (float(final_gravity) - 1)/(float(original_gravity) - 1))))
-        print 'Attenuation: ' + attenuation_calculated + '%'
-        print 'Alcohol by Volume: ' + abv_calculated + '%\n'
+        try:
+            abv_calculated = calculate_abv(original_gravity,final_gravity)
+            attenuation_calculated = calculate_attenuation(original_gravity,final_gravity)
+            print 'Attenuation: ' + attenuation_calculated + '%'
+            print 'Alcohol by Volume: ' + abv_calculated + '%\n'
+        except:
+            print 'Error with your inputs'
 
