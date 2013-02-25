@@ -1,3 +1,6 @@
+abv_multiplier = 131
+#abv_multiplier = 129
+
 try:
     from Gui import *
     gui_present = True
@@ -6,12 +9,12 @@ except:
 
 def calculate_abv_attenuation():
     try:
-        abv_calculated = str(131 * (float(original_gravity.get()) - float(final_gravity.get())))
-        attenuation_calculated = str(100 * (1 - (float(final_gravity.get()) - 1)/(float(original_gravity.get()) - 1)))
+        abv_calculated = str('%.2f' % (abv_multiplier * (float(original_gravity.get()) - float(final_gravity.get()))))
+        attenuation_calculated = str('%.2f' % (100 * (1 - (float(final_gravity.get()) - 1)/(float(original_gravity.get()) - 1))))
         abv.delete(0, END)
-        abv.insert(0, abv_calculated[:4] + '%')
+        abv.insert(0,  abv_calculated + '%')
         attenuation.delete(0, END)
-        attenuation.insert(0, attenuation_calculated[:5] + '%')
+        attenuation.insert(0, attenuation_calculated + '%')
     except:
         display_error()
 
@@ -66,8 +69,8 @@ else:
         if final_gravity[0].lower() == 'q':
             break
         print ''
-        abv_calculated = str(131 * (float(original_gravity) - float(final_gravity)))
-        attenuation_calculated = str(100 * (1 - (float(final_gravity) - 1)/(float(original_gravity) - 1)))
-        print 'Attenuation: ' + attenuation_calculated[:5] + '%'
-        print 'Alcohol by Volume: ' + abv_calculated[:4] + '%\n'
+        abv_calculated = str('%.2f' % (abv_multiplier * (float(original_gravity) - float(final_gravity))))
+        attenuation_calculated = str('%.2f' % (100 * (1 - (float(final_gravity) - 1)/(float(original_gravity) - 1))))
+        print 'Attenuation: ' + attenuation_calculated + '%'
+        print 'Alcohol by Volume: ' + abv_calculated + '%\n'
 
